@@ -1,8 +1,8 @@
 import {Body, Controller, Delete, Get, Param, Post, Put, Query} from "@nestjs/common";
 import {CommandBus, QueryBus} from "@nestjs/cqrs";
 
-@Controller('user')
-export class UserController {
+@Controller('profile')
+export class ProfileController {
   constructor(
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
@@ -10,7 +10,7 @@ export class UserController {
 
   @Get()
   async getAll(@Query() query: any): Promise<any> {
-    return 'getAll user';
+    return 'getAll profile';
   }
 
   @Get(':id')
@@ -20,12 +20,12 @@ export class UserController {
 
   @Post()
   async create(@Body() dto: any): Promise<any> {
-    return 'create user';
+    return 'create profile';
   }
 
   @Put(':id')
   async update(@Param('id') id: any): Promise<any> {
-    return 'update user';
+    return 'update profile';
   }
 
   @Delete(':id')

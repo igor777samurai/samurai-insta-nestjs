@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
-import {UserController} from "./user/api/user.controller.js";
+import { ProfileController } from './user/api/profile.controller.js';
 
 @Module({
   imports: [CqrsModule],
-  controllers: [UserController],
+  controllers: [ProfileController],
   providers: [],
 })
 export class AccountModule {}
