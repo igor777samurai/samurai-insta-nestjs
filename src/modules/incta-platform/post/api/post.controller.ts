@@ -21,7 +21,7 @@ export class PostController {
   async getAll(
     @Query() query: any,
   ): Promise<any> {
-    return 'getAll';
+    return 'getAll post';
   }
 
   @Get(':id')
