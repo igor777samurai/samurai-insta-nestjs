@@ -9,6 +9,8 @@ import {
   Query,
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
+import { GetPostsInput } from './dto/update-post.input.js';
+import { GetPostsQuery } from '../application/queries/get-posts.query-handler.js';
 
 @Controller('post')
 export class PostController {
@@ -18,16 +20,12 @@ export class PostController {
   ) {}
 
   @Get()
-  async getAll(
-    @Query() query: any,
-  ): Promise<any> {
-    return 'getAll post';
+  getAll(@Query() input: GetPostsInput) {
+    return this.queryBus.execute(new GetPostsQuery(input));
   }
 
   @Get(':id')
-  async getById(
-    @Param('id') id:any,
-  ): Promise<any> {
+  async getById(@Param('id') id: any): Promise<any> {
     return id;
   }
 
@@ -37,14 +35,12 @@ export class PostController {
   }
 
   @Put(':id')
-  async update(
-    @Param('id') id: any
-  ): Promise<any> {
-    return 'update post'
+  async update(@Param('id') id: any): Promise<any> {
+    return 'update post';
   }
 
   @Delete(':id')
-  async delete(@Param('id')id:any): Promise<any> {
+  async delete(@Param('id') id: any): Promise<any> {
     return 'deLETEE from post';
   }
 }

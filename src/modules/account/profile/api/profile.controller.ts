@@ -30,6 +30,6 @@ export class ProfileController {
 
   @Delete(':id')
   async delete(@Param('id') id: any): Promise<any> {
-    return 'deLETEE from user';
+    return 'deLETEE from profile';
   }
 }
