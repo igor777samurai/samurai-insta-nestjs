@@ -1,0 +1,116 @@
+apps/
+├── api-gateway/
+│   └── src/
+│       ├── api/
+│       │   ├── controllers/
+│       │   │   ├── users.controller.ts
+│       │   │   └── posts.controller.ts
+│       │   └── dto/
+│       │       ├── register-user.dto.ts
+│       │       └── create-post.dto.ts
+│       ├── clients/
+│       │   ├── users.client.ts
+│       │   └── posts.client.ts
+│       ├── app.module.ts
+│       └── main.ts
+│
+├── users/
+│   └── src/
+│       ├── api/
+│       │   ├── controllers/
+│       │   │   └── users.message-controller.ts
+│       │   └── dto/
+│       │       └── register-user.dto.ts
+│       ├── application/
+│       │   ├── commands/
+│       │   │   └── register-user/
+│       │   │       ├── register-user.command.ts
+│       │   │       └── register-user.handler.ts
+│       │   ├── queries/
+│       │   │   ├── get-user-by-id/
+│       │   │   └── get-users/
+│       │   └── services/
+│       ├── domain/
+│       │   ├── aggregates/
+│       │   │   └── user.aggregate.ts
+│       │   ├── entities/
+│       │   ├── value-objects/
+│       │   │   └── email.vo.ts
+│       │   ├── events/
+│       │   │   └── user-registered.event.ts
+│       │   ├── repositories/
+│       │   │   └── user.repository.ts
+│       │   └── exceptions/
+│       ├── infrastructure/
+│       │   ├── persistence/
+│       │   │   ├── prisma-user.repository.ts
+│       │   │   └── prisma.service.ts
+│       │   └── infrastructure.module.ts
+│       ├── users.module.ts
+│       └── main.ts
+│
+└── posts/
+    └── src/
+        ├── api/
+        │   ├── controllers/
+        │   │   └── posts.message-controller.ts
+        │   └── dto/
+        │       └── create-post.dto.ts
+        ├── application/
+        │   ├── commands/
+        │   │   ├── create-post/
+        │   │   └── delete-post/
+        │   ├── queries/
+        │   │   ├── get-post-by-id/
+        │   │   └── get-posts/
+        │   └── services/
+        ├── domain/
+        │   ├── aggregates/
+        │   │   └── post.aggregate.ts
+        │   ├── entities/
+        │   ├── value-objects/
+        │   ├── events/
+        │   ├── repositories/
+        │   │   └── post.repository.ts
+        │   └── exceptions/
+        ├── infrastructure/
+        │   ├── persistence/
+        │   │   ├── prisma-post.repository.ts
+        │   │   └── prisma.service.ts
+        │   └── infrastructure.module.ts
+        ├── posts.module.ts
+        └── main.ts
+
+libs/
+└── contracts/
+    └── src/
+        ├── users/
+        │   ├── register-user.contract.ts
+        │   └── user-response.contract.ts
+        ├── posts/
+        │   ├── create-post.contract.ts
+        │   └── post-response.contract.ts
+        └── index.ts
+
+nest-cli.json
+package.json
+tsconfig.json
+
+
+nest new my-project
+cd my-project
+
+nest generate app api-gateway
+nest generate app users
+nest generate app posts
+
+nest generate library contracts
+npm install @nestjs/microservices @nestjs/cqrs
+
+
+pnpm run start:dev users
+npm run start:dev api-gateway
+docker compose up -d
+
+docker compose logs postgres
+docker exec -it nest-postgres psql -U app -d users_d
