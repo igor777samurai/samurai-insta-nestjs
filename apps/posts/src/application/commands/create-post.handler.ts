@@ -2,32 +2,16 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { RpcException } from '@nestjs/microservices';
 import { Prisma } from '@prisma/client';
 
+import { PrismaPostRepository } from '../../infrastructure/prisma-post.repository.ts';
 import { CreatePostCommand } from './create-post.command.ts';
-import { PrismaService } from '../../../../core/database/prisma.service.ts';
 
 @CommandHandler(CreatePostCommand)
 export class CreatePostHandler implements ICommandHandler<CreatePostCommand> {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly postRepository: PrismaPostRepository) {}
 
   async execute(command: CreatePostCommand) {
-    const { authorId, caption, imageUrl } = command.data;
-
     try {
-      return await this.prisma.post.create({
-        data: {
-          authorId,
-          caption,
-          imageUrl,
-        },
-        include: {
-          author: {
-            select: {
-              id: true,
-              name: true,
-            },
-          },
-        },
-      });
+      return await this.postRepository.create(command.data);
     } catch (error) {
       if (
         error instanceof Prisma.PrismaClientKnownRequestError &&
@@ -35,7 +19,7 @@ export class CreatePostHandler implements ICommandHandler<CreatePostCommand> {
       ) {
         throw new RpcException({
           statusCode: 400,
-          message: 'User with this authorId does not exist',
+          message: 'Author does not exist',
         });
       }
 

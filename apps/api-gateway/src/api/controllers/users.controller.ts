@@ -10,7 +10,7 @@
   import { ClientProxy } from '@nestjs/microservices';
   import { Inject } from '@nestjs/common';
   import { firstValueFrom, catchError, throwError } from 'rxjs';
-  import { RegisterUserDto } from '../../users/src/api/dto/register-user.dto.ts';
+  import { RegisterUserDto } from '../../../../users/src/api/dto/register-user.dto.ts';
 
   @Controller('users')
   export class UsersController {

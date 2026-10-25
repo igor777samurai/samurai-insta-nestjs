@@ -3,12 +3,12 @@ import { RpcException } from '@nestjs/microservices';
 import { Prisma } from '@prisma/client';
 import * as argon2 from 'argon2';
 
-import { PrismaService } from '../../../../core/database/prisma.service.ts';
 import { RegisterUserCommand } from './register-user.command.ts';
+import {PrismaUserRepository} from "../../infrastructure/prisma-user.repository.ts";
 
 @CommandHandler(RegisterUserCommand)
 export class RegisterUserHandler implements ICommandHandler<RegisterUserCommand> {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly userRepository: PrismaUserRepository) {}
 
   async execute(command: RegisterUserCommand) {
     const { name, email, password } = command.data;
@@ -17,18 +17,10 @@ export class RegisterUserHandler implements ICommandHandler<RegisterUserCommand>
     const passwordHash = await argon2.hash(password);
 
     try {
-      return await this.prisma.user.create({
-        data: {
-          name,
-          email: normalizedEmail,
-          passwordHash,
-        },
-        select: {
-          id: true,
-          name: true,
-          email: true,
-          createdAt: true,
-        },
+      return await this.userRepository.create({
+        name,
+        email: normalizedEmail,
+        passwordHash,
       });
     } catch (error) {
       if (

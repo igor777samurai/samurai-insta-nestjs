@@ -1,5 +1,9 @@
-import { CreatePostDto } from '../../api/dto/create-post.dto.ts';
+export interface CreatePostData {
+  authorId: number;
+  caption?: string;
+  imageUrl?: string;
+}
 
 export class CreatePostCommand {
-  constructor(public readonly data: CreatePostDto) {}
+  constructor(public readonly data: CreatePostData) {}
 }

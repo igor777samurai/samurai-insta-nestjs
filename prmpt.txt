@@ -24,9 +24,8 @@ apps/
 │       │       └── register-user.dto.ts
 │       ├── application/
 │       │   ├── commands/
-│       │   │   └── register-user/
-│       │   │       ├── register-user.command.ts
-│       │   │       └── register-user.handler.ts
+│       │   │   ├── register-user.command.ts
+│       │   │   └── register-user.handler.ts
 │       │   ├── queries/
 │       │   │   ├── get-user-by-id/
 │       │   │   └── get-users/
@@ -43,9 +42,7 @@ apps/
 │       │   │   └── user.repository.ts
 │       │   └── exceptions/
 │       ├── infrastructure/
-│       │   ├── persistence/
 │       │   │   ├── prisma-user.repository.ts
-│       │   │   └── prisma.service.ts
 │       │   └── infrastructure.module.ts
 │       ├── users.module.ts
 │       └── main.ts
@@ -54,9 +51,10 @@ apps/
     └── src/
         ├── api/
         │   ├── controllers/
-        │   │   └── posts.message-controller.ts
+        │   │   └── posts.controller.ts
         │   └── dto/
         │       └── create-post.dto.ts
+        │       └── update-post.dto.ts
         ├── application/
         │   ├── commands/
         │   │   ├── create-post/
@@ -129,8 +127,10 @@ pnpm exec prisma generate
 # RUN
 
 pnpm run start:dev users
+pnpm run start:dev posts
 pnpm run start:dev api-gateway
 docker compose up -d
+Stop-Service -Name postgresql-x64-18 // остановить локальный postgresql
 
 # UI
 
