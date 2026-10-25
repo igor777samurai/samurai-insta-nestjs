@@ -1,9 +1,9 @@
-import { ConflictException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { RpcException } from '@nestjs/microservices';
 import { Prisma } from '@prisma/client';
 import * as argon2 from 'argon2';
 
-import { PrismaService } from '../../infrastructure/database/prisma.service.ts';
+import { PrismaService } from '../../../../core/database/prisma.service.ts';
 import { RegisterUserCommand } from './register-user.command.ts';
 
 @CommandHandler(RegisterUserCommand)
@@ -13,13 +13,14 @@ export class RegisterUserHandler implements ICommandHandler<RegisterUserCommand>
   async execute(command: RegisterUserCommand) {
     const { name, email, password } = command.data;
 
+    const normalizedEmail = email.toLowerCase().trim();
     const passwordHash = await argon2.hash(password);
 
     try {
-      const user = await this.prisma.user.create({
+      return await this.prisma.user.create({
         data: {
           name,
-          email: email.toLowerCase().trim(),
+          email: normalizedEmail,
           passwordHash,
         },
         select: {
@@ -29,14 +30,15 @@ export class RegisterUserHandler implements ICommandHandler<RegisterUserCommand>
           createdAt: true,
         },
       });
-
-      return user;
     } catch (error) {
       if (
         error instanceof Prisma.PrismaClientKnownRequestError &&
         error.code === 'P2002'
       ) {
-        throw new ConflictException('User with this email already exists');
+        throw new RpcException({
+          statusCode: 409,
+          message: 'User with this email already exists',
+        });
       }
 
       throw error;

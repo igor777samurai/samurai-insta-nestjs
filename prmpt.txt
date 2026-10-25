@@ -1,3 +1,4 @@
+# Folder architecture
 apps/
 ├── api-gateway/
 │   └── src/
@@ -96,6 +97,7 @@ nest-cli.json
 package.json
 tsconfig.json
 
+# START NEST PROJECT
 
 nest new my-project
 cd my-project
@@ -107,10 +109,29 @@ nest generate app posts
 nest generate library contracts
 npm install @nestjs/microservices @nestjs/cqrs
 
-
-pnpm run start:dev users
-npm run start:dev api-gateway
-docker compose up -d
+# DOCKER POSTGRES
 
 docker compose logs postgres
 docker exec -it nest-postgres psql -U app -d users_d
+docker exec -it nest-postgres psql -U app -d users_db
+
+# SQL POSTGRES
+
+SELECT id, name, email, "passwordHash", "createdAt"
+FROM "User"
+ORDER BY id DESC;
+
+# MIGRATION
+
+pnpm exec prisma migrate dev --name add_posts
+pnpm exec prisma generate
+
+# RUN
+
+pnpm run start:dev users
+pnpm run start:dev api-gateway
+docker compose up -d
+
+# UI
+
+pnpm exec prisma studio
