@@ -7,7 +7,7 @@ apps/
 │       │   │   ├── users.controller.ts
 │       │   │   └── posts.controller.ts
 │       │   └── dto/
-│       │       ├── register-user.dto.ts
+│       │       ├── [del]_register-user.dto.ts
 │       │       └── create-post.dto.ts
 │       ├── clients/
 │       │   ├── users.client.ts
@@ -21,11 +21,11 @@ apps/
 │       │   ├── controllers/
 │       │   │   └── users.message-controller.ts
 │       │   └── dto/
-│       │       └── register-user.dto.ts
+│       │       └── [del]_register-user.dto.ts
 │       ├── application/
 │       │   ├── commands/
-│       │   │   ├── register-user.command.ts
-│       │   │   └── register-user.handler.ts
+│       │   │   ├── [del]_register-user.command.ts
+│       │   │   └── [del]_register-user.handler.ts
 │       │   ├── queries/
 │       │   │   ├── get-user-by-id/
 │       │   │   └── get-users/

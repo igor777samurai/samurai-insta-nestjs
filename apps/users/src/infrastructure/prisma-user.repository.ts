@@ -17,9 +17,48 @@ export class PrismaUserRepository {
     });
   }
 
-  async findByEmail(email: string) {
-    return this.prisma.user.findUnique({
-      where: { email },
+  async delete(id: number) {
+    return this.prisma.user.delete({
+      where: { id },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+      },
+    });
+  }
+
+  async update(
+    id: number,
+    data: {
+      name?: string;
+      email?: string;
+    },
+  ) {
+    return this.prisma.user.update({
+      where: { id },
+      data,
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+  }
+  async findAll() {
+    return this.prisma.user.findMany({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
     });
   }
 
@@ -31,6 +70,7 @@ export class PrismaUserRepository {
         name: true,
         email: true,
         createdAt: true,
+        updatedAt: true,
       },
     });
   }
