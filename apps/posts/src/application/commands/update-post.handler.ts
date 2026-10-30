@@ -2,7 +2,7 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { RpcException } from '@nestjs/microservices';
 import { Prisma } from '@prisma/client';
 
-import { PrismaPostRepository } from '../../infrastructure/prisma-post.repository.ts';
+import PrismaPostRepository from '../../infrastructure/prisma-post.repository.ts';
 import { UpdatePostCommand } from './update-post.command.ts';
 
 @CommandHandler(UpdatePostCommand)

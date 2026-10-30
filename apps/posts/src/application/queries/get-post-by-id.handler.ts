@@ -1,7 +1,7 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { RpcException } from '@nestjs/microservices';
 
-import { PrismaPostRepository } from '../../infrastructure/prisma-post.repository.ts';
+import PrismaPostRepository from '../../infrastructure/prisma-post.repository.ts';
 import { GetPostByIdQuery } from './get-post-by-id.query.ts';
 
 @QueryHandler(GetPostByIdQuery)

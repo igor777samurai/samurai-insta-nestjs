@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../../core/database/prisma.service.ts';
+import { PrismaService } from '../../../../core/database/prisma.service.ts';
 
 @Injectable()
-export class PrismaPostRepository {
+class PrismaPostRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(data: {
@@ -72,3 +72,5 @@ export class PrismaPostRepository {
     });
   }
 }
+
+export default PrismaPostRepository
