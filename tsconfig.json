@@ -27,15 +27,6 @@
   "files": [],
   "references": [
     {
-      "path": "./apps/samurai-incta/tsconfig.app.json"
-    },
-    {
-      "path": "./apps/api/tsconfig.app.json"
-    },
-    {
-      "path": "./apps/tcp-service/tsconfig.app.json"
-    },
-    {
       "path": "./apps/api-gateway/tsconfig.app.json"
     },
     {

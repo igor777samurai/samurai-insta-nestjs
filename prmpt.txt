@@ -132,6 +132,11 @@ pnpm run start:dev api-gateway
 docker compose up -d
 Stop-Service -Name postgresql-x64-18 // остановить локальный postgresql
 
+# TEST
+
+pnpm test
+pnpm test:watch
+
 # UI
 
 pnpm exec prisma studio
