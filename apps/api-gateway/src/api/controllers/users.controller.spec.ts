@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { of } from 'rxjs';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { UsersController } from './users.controller';
+import { UsersController } from './users.controller.ts';
 
 describe('UsersController', () => {
   let controller: UsersController;
@@ -35,12 +35,15 @@ describe('UsersController', () => {
     const data = {
       name: 'Alex',
       email: 'alex@example.com',
+      password: 'Password123!',
     };
 
     const createdUser = {
       id: 1,
-      ...data,
+      name: data.name,
+      email: data.email,
     };
+
 
     usersClient.send.mockReturnValue(of(createdUser));
 
@@ -50,6 +53,7 @@ describe('UsersController', () => {
       { cmd: 'users.create' },
       data,
     );
+
     expect(result).toEqual(createdUser);
   });
 
