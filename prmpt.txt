@@ -1,18 +1,114 @@
 # Folder architecture
 apps/
+│
+├── core/
+│   └── database/
+│       ├── prisma.module.ts
+│       └── prisma.service.ts
+│
 ├── api-gateway/
 │   └── src/
 │       ├── api/
 │       │   ├── controllers/
+│       │   │   ├── auth.controller.ts
 │       │   │   ├── users.controller.ts
 │       │   │   └── posts.controller.ts
 │       │   └── dto/
-│       │       ├── [del]_register-user.dto.ts
-│       │       └── create-post.dto.ts
+│       │       ├── register.dto.ts
+│       │       ├── login.dto.ts
+│       │       ├── refresh-token.dto.ts
+│       │       ├── forgot-password.dto.ts
+│       │       ├── reset-password.dto.ts
+│       │       ├── create-post.dto.ts
+│       │       └── update-post.dto.ts
+│       │
 │       ├── clients/
+│       │   ├── auth.client.ts
 │       │   ├── users.client.ts
 │       │   └── posts.client.ts
+│       │
 │       ├── app.module.ts
+│       └── main.ts
+│
+├── auth/
+│   └── src/
+│       ├── api/
+│       │   ├── controllers/
+│       │   │   └── auth.message-controller.ts
+│       │   └── dto/
+│       │       ├── register.dto.ts
+│       │       ├── login.dto.ts
+│       │       ├── refresh-token.dto.ts
+│       │       ├── logout.dto.ts
+│       │       ├── forgot-password.dto.ts
+│       │       ├── reset-password.dto.ts
+│       │       └── oauth-login.dto.ts
+│       │
+│       ├── application/
+│       │   ├── commands/
+│       │   │   ├── register-user/
+│       │   │   │   ├── register-user.command.ts
+│       │   │   │   └── register-user.handler.ts
+│       │   │   ├── login/
+│       │   │   │   ├── login.command.ts
+│       │   │   │   └── login.handler.ts
+│       │   │   ├── logout/
+│       │   │   │   ├── logout.command.ts
+│       │   │   │   └── logout.handler.ts
+│       │   │   ├── refresh-token/
+│       │   │   │   ├── refresh-token.command.ts
+│       │   │   │   └── refresh-token.handler.ts
+│       │   │   ├── forgot-password/
+│       │   │   ├── reset-password/
+│       │   │   └── oauth-login/
+│       │   │
+│       │   ├── queries/
+│       │   │   ├── get-user-sessions/
+│       │   │   └── get-session-by-id/
+│       │   │
+│       │   └── services/
+│       │       ├── password-hasher.service.ts
+│       │       └── token.service.ts
+│       │
+│       ├── domain/
+│       │   ├── aggregates/
+│       │   │   └── auth-user.aggregate.ts
+│       │   │
+│       │   ├── entities/
+│       │   │   ├── refresh-token.entity.ts
+│       │   │   └── device.entity.ts
+│       │   │
+│       │   ├── value-objects/
+│       │   │   ├── email.vo.ts
+│       │   │   └── password.vo.ts
+│       │   │
+│       │   ├── events/
+│       │   │   ├── user-registered.event.ts
+│       │   │   ├── user-logged-in.event.ts
+│       │   │   └── user-logged-out.event.ts
+│       │   │
+│       │   ├── repositories/
+│       │   │   └── auth.repository.ts
+│       │   │
+│       │   └── exceptions/
+│       │       ├── invalid-credentials.exception.ts
+│       │       └── email-already-exists.exception.ts
+│       │
+│       ├── infrastructure/
+│       │   ├── persistence/
+│       │   │   └── prisma-auth.repository.ts
+│       │   │
+│       │   ├── security/
+│       │   │   ├── argon2-password-hasher.ts
+│       │   │   └── jwt-token.service.ts
+│       │   │
+│       │   ├── oauth/
+│       │   │   ├── google-oauth.service.ts
+│       │   │   └── github-oauth.service.ts
+│       │   │
+│       │   └── infrastructure.module.ts
+│       │
+│       ├── auth.module.ts
 │       └── main.ts
 │
 ├── users/
@@ -21,15 +117,18 @@ apps/
 │       │   ├── controllers/
 │       │   │   └── users.message-controller.ts
 │       │   └── dto/
-│       │       └── [del]_register-user.dto.ts
+│       │       ├── get-user-by-id.dto.ts
+│       │       └── update-user.dto.ts
+│       │
 │       ├── application/
 │       │   ├── commands/
-│       │   │   ├── [del]_register-user.command.ts
-│       │   │   └── [del]_register-user.handler.ts
+│       │   │   ├── update-user/
+│       │   │   └── delete-user/
 │       │   ├── queries/
 │       │   │   ├── get-user-by-id/
 │       │   │   └── get-users/
 │       │   └── services/
+│       │
 │       ├── domain/
 │       │   ├── aggregates/
 │       │   │   └── user.aggregate.ts
@@ -37,13 +136,17 @@ apps/
 │       │   ├── value-objects/
 │       │   │   └── email.vo.ts
 │       │   ├── events/
-│       │   │   └── user-registered.event.ts
+│       │   │   ├── user-updated.event.ts
+│       │   │   └── user-deleted.event.ts
 │       │   ├── repositories/
 │       │   │   └── user.repository.ts
 │       │   └── exceptions/
+│       │
 │       ├── infrastructure/
-│       │   │   ├── prisma-user.repository.ts
+│       │   ├── persistence/
+│       │   │   └── prisma-user.repository.ts
 │       │   └── infrastructure.module.ts
+│       │
 │       ├── users.module.ts
 │       └── main.ts
 │
@@ -51,18 +154,21 @@ apps/
     └── src/
         ├── api/
         │   ├── controllers/
-        │   │   └── posts.controller.ts
+        │   │   └── posts.message-controller.ts
         │   └── dto/
-        │       └── create-post.dto.ts
+        │       ├── create-post.dto.ts
         │       └── update-post.dto.ts
+        │
         ├── application/
         │   ├── commands/
         │   │   ├── create-post/
+        │   │   ├── update-post/
         │   │   └── delete-post/
         │   ├── queries/
         │   │   ├── get-post-by-id/
         │   │   └── get-posts/
         │   └── services/
+        │
         ├── domain/
         │   ├── aggregates/
         │   │   └── post.aggregate.ts
@@ -72,28 +178,14 @@ apps/
         │   ├── repositories/
         │   │   └── post.repository.ts
         │   └── exceptions/
+        │
         ├── infrastructure/
         │   ├── persistence/
-        │   │   ├── prisma-post.repository.ts
-        │   │   └── prisma.service.ts
+        │   │   └── prisma-post.repository.ts
         │   └── infrastructure.module.ts
+        │
         ├── posts.module.ts
         └── main.ts
-
-libs/
-└── contracts/
-    └── src/
-        ├── users/
-        │   ├── register-user.contract.ts
-        │   └── user-response.contract.ts
-        ├── posts/
-        │   ├── create-post.contract.ts
-        │   └── post-response.contract.ts
-        └── index.ts
-
-nest-cli.json
-package.json
-tsconfig.json
 
 # START NEST PROJECT
 
@@ -119,16 +211,12 @@ SELECT id, name, email, "passwordHash", "createdAt"
 FROM "User"
 ORDER BY id DESC;
 
-# MIGRATION
-
-pnpm exec prisma migrate dev --name add_posts
-pnpm exec prisma generate
-
 # RUN
 
 pnpm run start:dev users
 pnpm run start:dev posts
 pnpm run start:dev api-gateway
+pnpm run start:dev auth
 docker compose up -d
 Stop-Service -Name postgresql-x64-18 // остановить локальный postgresql
 
@@ -137,6 +225,20 @@ Stop-Service -Name postgresql-x64-18 // остановить локальный 
 pnpm test
 pnpm test:watch
 
-# UI
+# PRISMA (UI, MIGRATION)
 
 pnpm exec prisma studio
+pnpm exec prisma format
+pnpm exec prisma validate
+ls prisma/migrations
+pnpm exec prisma migrate dev --name add_posts
+pnpm exec prisma migrate dev --name add_auth_models
+pnpm exec prisma generate
+
+Get-Content prisma/schema.prisma
+Get-Content prisma/migrations/20261024175549_init/migration.sql
+Get-Content prisma/migrations/20261025040602_add_posts/migration.sql
+
+# NEW MICROSERVICE
+
+pnpm exec nest g app auth

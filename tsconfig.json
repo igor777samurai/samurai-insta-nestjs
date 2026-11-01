@@ -34,6 +34,12 @@
     },
     {
       "path": "./apps/posts/tsconfig.app.json"
+    },
+    {
+      "path": "./apps/samurai-incta/tsconfig.app.json"
+    },
+    {
+      "path": "./apps/auth/tsconfig.app.json"
     }
   ]
 }
