@@ -2,16 +2,20 @@
 apps/
 │
 ├── core/
-│   └── database/
-│       ├── prisma.module.ts
-│       └── prisma.service.ts
+│   ├── database/
+│   │   ├── prisma.module.ts
+│   │   └── prisma.service.ts
+│   │
+│   └── common/
+│       └── pipes/
+│           └── rpc-validation.pipe.ts
 │
 ├── api-gateway/
 │   └── src/
 │       ├── api/
 │       │   ├── controllers/
-│       │   │   ├── auth.controller.ts
-│       │   │   ├── users.controller.ts
+│       │   │   ├── auth.message-controller.ts
+│       │   │   ├── users.message-controller.ts
 │       │   │   └── posts.controller.ts
 │       │   └── dto/
 │       │       ├── register.dto.ts

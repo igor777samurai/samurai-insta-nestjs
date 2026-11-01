@@ -4,7 +4,7 @@ import request from 'supertest';
 import { App } from 'supertest/types.js';
 import { UsersModule } from './../src/users.module.js';
 
-describe('UsersController (e2e)', () => {
+describe('UsersMessageController (e2e)', () => {
   let app: INestApplication<App>;
 
   beforeEach(async () => {

@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { UsersController } from './api/controllers/users.controller.ts';
+import { UsersMessageController } from './api/controllers/users.message-controller.ts';
 import { CqrsModule } from '@nestjs/cqrs';
 import { PrismaUserRepository } from './infrastructure/prisma-user.repository.ts';
 import { FindAllUsersHandler } from './application/queries/find-all-users.handler.ts';
@@ -11,7 +11,7 @@ import {FindUserByIdHandler} from "./application/queries/find-user-by-id.handler
 
 @Module({
   imports: [CqrsModule, PrismaModule],
-  controllers: [UsersController],
+  controllers: [UsersMessageController],
   providers: [
     PrismaUserRepository,
     UpdateUserHandler,

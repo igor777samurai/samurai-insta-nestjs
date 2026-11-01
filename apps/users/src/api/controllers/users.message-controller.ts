@@ -12,7 +12,7 @@ import { CreateUserDto } from '../dto/create-user.dto.ts';
 import { UpdateUserDto } from '../dto/update-user.dto.ts';
 
 @Controller()
-export class UsersController {
+export class UsersMessageController {
   constructor(
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,

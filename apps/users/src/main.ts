@@ -4,7 +4,7 @@ import {
   Transport,
 } from '@nestjs/microservices';
 import { AppModule } from './app.module.ts';
-import { createRpcValidationPipe } from './common/pipes/validation.pipe.ts';
+import { createRpcValidationPipe } from '../../../core/common/pipes/validation.pipe.ts';
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
