@@ -26,11 +26,6 @@ apps/
 │       │       ├── create-post.dto.ts
 │       │       └── update-post.dto.ts
 │       │
-│       ├── clients/
-│       │   ├── auth.client.ts
-│       │   ├── users.client.ts
-│       │   └── posts.client.ts
-│       │
 │       ├── app.module.ts
 │       └── main.ts
 │
@@ -155,42 +150,106 @@ apps/
 │       └── main.ts
 │
 └── posts/
+│    └── src/
+│        ├── api/
+│        │   ├── controllers/
+│        │   │   └── posts.message-controller.ts
+│        │   └── dto/
+│        │       ├── create-post.dto.ts
+│        │       └── update-post.dto.ts
+│        │
+│        ├── application/
+│        │   ├── commands/
+│        │   │   ├── create-post/
+│        │   │   ├── update-post/
+│        │   │   └── delete-post/
+│        │   ├── queries/
+│        │   │   ├── get-post-by-id/
+│        │   │   └── get-posts/
+│        │   └── services/
+│        │
+│        ├── domain/
+│        │   ├── aggregates/
+│        │   │   └── post.aggregate.ts
+│        │   ├── entities/
+│        │   ├── value-objects/
+│        │   ├── events/
+│        │   ├── repositories/
+│        │   │   └── post.repository.ts
+│        │   └── exceptions/
+│        │
+│        ├── infrastructure/
+│        │   ├── persistence/
+│        │   │   └── prisma-post.repository.ts
+│        │   └── infrastructure.module.ts
+│        │
+│        ├── posts.module.ts
+│        └── main.ts
+└── files/
     └── src/
+        │
         ├── api/
         │   ├── controllers/
-        │   │   └── posts.message-controller.ts
+        │   │   └── files.message-controller.ts
+        │   │
         │   └── dto/
-        │       ├── create-post.dto.ts
-        │       └── update-post.dto.ts
+        │       ├── upload-file.dto.ts
+        │       ├── download-file.dto.ts
+        │       └── delete-file.dto.ts
         │
         ├── application/
+        │   │
         │   ├── commands/
-        │   │   ├── create-post/
-        │   │   ├── update-post/
-        │   │   └── delete-post/
+        │   │   ├── upload-file.command.ts
+        │   │   └── upload-file.handler.ts
+        │   │   ├── delete-file.command.ts
+        │   │   └── delete-file.handler.ts
+        │   │
         │   ├── queries/
-        │   │   ├── get-post-by-id/
-        │   │   └── get-posts/
+        │   │   ├── download-file.query.ts
+        │   │   └── download-file.handler.ts
+        │   │
         │   └── services/
         │
         ├── domain/
+        │   │
         │   ├── aggregates/
-        │   │   └── post.aggregate.ts
+        │   │   └── file.aggregate.ts
+        │   │
         │   ├── entities/
+        │   │
         │   ├── value-objects/
+        │   │   ├── file-id.vo.ts
+        │   │   ├── file-name.vo.ts
+        │   │   ├── file-size.vo.ts
+        │   │   └── mime-type.vo.ts
+        │   │
         │   ├── events/
+        │   │   ├── file-uploaded.event.ts
+        │   │   └── file-deleted.event.ts
+        │   │
         │   ├── repositories/
-        │   │   └── post.repository.ts
+        │   │   └── file.repository.ts
+        │   │
         │   └── exceptions/
+        │       ├── file-not-found.exception.ts
+        │       └── invalid-file.exception.ts
         │
         ├── infrastructure/
+        │   │
         │   ├── persistence/
-        │   │   └── prisma-post.repository.ts
+        │   │   └── prisma-file.repository.ts
+        │   │
+        │   ├── storage/
+        │   │   └── postgres-file.storage.ts
+        │   │
+        │   ├── messaging/
+        │   │
         │   └── infrastructure.module.ts
         │
-        ├── posts.module.ts
+        ├── files.module.ts
+        ├── main.module.ts
         └── main.ts
-
 # START NEST PROJECT
 
 nest new my-project
@@ -199,6 +258,7 @@ cd my-project
 nest generate app api-gateway
 nest generate app users
 nest generate app posts
+nest generate app files
 
 nest generate library contracts
 npm install @nestjs/microservices @nestjs/cqrs
@@ -237,6 +297,8 @@ pnpm exec prisma validate
 ls prisma/migrations
 pnpm exec prisma migrate dev --name add_posts
 pnpm exec prisma migrate dev --name add_auth_models
+pnpm exec prisma generate
+pnpm exec prisma migrate dev --name add_files
 pnpm exec prisma generate
 
 Get-Content prisma/schema.prisma

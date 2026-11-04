@@ -111,3 +111,21 @@ model Device {
   @@index([userId])
   @@map("devices")
 }
+
+model File {
+  id           String   @id @default(uuid())
+
+  originalName String
+  mimeType     String
+  size         Int
+
+  data         Bytes
+
+  userId       String
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([userId])
+  @@map("files")
+}
