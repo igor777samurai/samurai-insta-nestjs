@@ -6,8 +6,9 @@ async function bootstrap() {
 
   app.setGlobalPrefix('api');
 
-  await app.listen(3000);
+  await app.listen(process.env.port || 3000);
   console.log('API Gateway is running on port 3000');
+  console.log('TEST_ENV: ' + process.env.TEST_ENV);
 }
 
 bootstrap();
