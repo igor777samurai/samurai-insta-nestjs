@@ -8,14 +8,6 @@ export default defineConfig({
   test: {
     globals: true,
     root: './',
-    include: [
-      'apps/**/*.spec.ts',
-      'libs/**/*.spec.ts',
-    ],
-    exclude: [
-      '**/node_modules/**',
-      '**/dist/**',
-      '**/temp/**',
-    ],
+    include: ['**/*.spec.ts'],
   },
 });
