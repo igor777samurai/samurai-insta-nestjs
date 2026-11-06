@@ -27,9 +27,6 @@
   "references": [
     {
       "path": "./apps/aularis-backend/tsconfig.app.json"
-    },
-    {
-      "path": "./apps/api/tsconfig.app.json"
     }
   ]
 }

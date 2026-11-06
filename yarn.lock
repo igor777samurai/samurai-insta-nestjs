@@ -1976,6 +1976,7 @@ __metadata:
     supertest: "npm:^7.0.0"
     tsconfig-paths-webpack-plugin: "npm:^4.2.0"
     typescript: "npm:^6.0.2"
+    vite: "npm:^8.3.5"
     vite-tsconfig-paths: "npm:^5.1.4"
     vitest: "npm:^4.1.2"
     webpack-node-externals: "npm:^3.0.0"
@@ -4697,7 +4698,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^6.0.0 || ^7.0.0 || ^8.0.0":
+"vite@npm:^6.0.0 || ^7.0.0 || ^8.0.0, vite@npm:^8.3.5":
   version: 8.3.5
   resolution: "vite@npm:8.3.5"
   dependencies:

@@ -277,10 +277,47 @@ Remove-Item -Recurse -Force apps/api
       "tsConfigPath": "apps/aularis-backend/tsconfig.app.json"
     }
 
+🟥 yarn test
+🟥 yarn test:e2e
+🟩 yarn add -D vite
+
+📑 tsconfig.json:
+    {
+      "compilerOptions": {
+        "module": "nodenext",
+        "moduleResolution": "nodenext",
+        "resolvePackageJsonExports": true,
+        "esModuleInterop": true,
+        "isolatedModules": true,
+        "declaration": true,
+        "removeComments": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "allowSyntheticDefaultImports": true,
+        "target": "ES2023",
+        "sourceMap": true,
+        "outDir": "./dist",
+        "rootDir": ".",
+        "incremental": true,
+        "skipLibCheck": true,
+        "strict": true,
+        "strictPropertyInitialization": false,
+        "types": [
+          "vitest/globals",
+          "node"
+        ]
+      },
+      "files": [],
+      "references": [
+        {
+          "path": "./apps/aularis-backend/tsconfig.app.json"
+        }
+      ]
+    }
 
 
-
-
+⚙️ PR:
+run build production aularis-backend
 
 
 

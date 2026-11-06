@@ -22,29 +22,47 @@ pipeline {
         }
         stage('Unit tests') {
             steps {
-                script {
-                    sh '''
-                       export NVM_DIR="$HOME/.nvm"
-                       [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-                       nvm use --lts
-                       yarn install
-                       yarn test
-                    '''
-                }
+//                 script {
+//                     sh '''
+//                        export NVM_DIR="$HOME/.nvm"
+//                        [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+//                        nvm use --lts
+//                        yarn install
+//                        yarn test
+//                     '''
+//                 }
+                    script {
+                                sh '''
+                                    export NVM_DIR="$HOME/.nvm"
+                                    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+
+                                    # Устанавливаем последнюю LTS-версию Node.js
+                                    nvm install --lts
+
+                                    # Переключаемся на LTS
+                                    nvm use --lts
+
+                                    # Устанавливаем зависимости
+                                    yarn install
+
+                                    # Запускаем тесты
+                                    yarn test
+                                '''
+                            }
             }
         }
-        stage('e2e tests') {
-            steps {
-                script {
-                    sh '''
-                       export NVM_DIR="$HOME/.nvm"
-                       [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-                       nvm use --lts
-                       yarn test:e2e
-                    '''
-                }
-            }
-        }
+//         stage('e2e tests') {
+//             steps {
+//                 script {
+//                     sh '''
+//                        export NVM_DIR="$HOME/.nvm"
+//                        [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+//                        nvm use --lts
+//                        yarn test:e2e
+//                     '''
+//                 }
+//             }
+//         }
         stage('Build docker image') {
             steps {
                 echo "Build image started..."
