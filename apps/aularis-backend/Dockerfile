@@ -1,4 +1,4 @@
-FROM node:22-alpine
+FROM node:24-alpine
 
 ARG port
 ARG service
@@ -10,16 +10,12 @@ WORKDIR /home/node/app
 
 COPY package*.json ./
 
-RUN npm install -g npm@10.9.4
-
 RUN npm install
 
 COPY . .
 
 # Временно для диагностики
 RUN npm run
-
-# Build будет добавлен после проверки package.json
 
 USER node
 
