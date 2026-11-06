@@ -24,7 +24,7 @@ COPY --chown=node package*.json ./
 RUN npm install
 
 # Bundle app source code
-COPY --chown=node ../../../backup_delete%201-12-2026 .
+COPY --chown=node ../../../../Downloads .
 
 RUN npm run build:${SERVICE}
 
@@ -32,4 +32,4 @@ RUN npm run build:${SERVICE}
 
 EXPOSE ${PORT}
 
-CMD npm run 'start:api-gateway'
+CMD npm run 'start:aularis-backend'

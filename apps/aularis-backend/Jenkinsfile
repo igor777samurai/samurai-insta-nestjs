@@ -3,13 +3,13 @@ pipeline {
     agent any
     environment {
         ENV_TYPE = "production"
-        PORT = 4461
+        PORT = 4462
         NAMESPACE = "auralis-online-ru"
         REGISTRY_HOSTNAME = "smartandrew"
-        PROJECT = "aularis-api"
-        SERVICE="api"
+        PROJECT = "aularis-backend"
+        SERVICE="aularis-backend"
         REGISTRY = "registry.hub.docker.com"
-        DEPLOYMENT_NAME = "aularis-api-deployment"
+        DEPLOYMENT_NAME = "aularis-backend-deployment"
         IMAGE_NAME = "${env.BUILD_ID}_${env.ENV_TYPE}_${env.GIT_COMMIT}"
         DOCKER_BUILD_NAME = "${env.REGISTRY_HOSTNAME}/${env.PROJECT}:${env.IMAGE_NAME}"
     }
@@ -18,6 +18,31 @@ pipeline {
         stage('Clone repository') {
             steps {
                 checkout scm
+            }
+        }
+        stage('Unit tests') {
+            steps {
+                script {
+                    sh '''
+                       export NVM_DIR="$HOME/.nvm"
+                       [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+                       nvm use --lts
+                       yarn install
+                       yarn test
+                    '''
+                }
+            }
+        }
+        stage('e2e tests') {
+            steps {
+                script {
+                    sh '''
+                       export NVM_DIR="$HOME/.nvm"
+                       [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+                       nvm use --lts
+                       yarn test:e2e
+                    '''
+                }
             }
         }
         stage('Build docker image') {
