@@ -24,7 +24,7 @@ COPY --chown=node package*.json ./
 RUN npm install
 
 # Bundle app source code
-COPY --chown=node ../../../../Downloads .
+COPY --chown=node ../../Downloads .
 
 RUN npm run build:${SERVICE}
 
