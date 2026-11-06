@@ -1,4 +1,4 @@
-FROM node:20-alpine
+FROM node:22-alpine
 
 ARG port
 ARG service
@@ -8,21 +8,19 @@ ENV PORT=${port}
 
 WORKDIR /home/node/app
 
-# Copy root package manifests
 COPY package*.json ./
 
-# Install dependencies
 RUN npm install -g npm@10.9.4
 
 RUN npm install
 
-# Copy monorepo source
 COPY . .
 
-# Build the backend
-RUN npm run build:${SERVICE}
+# Временно для диагностики
+RUN npm run
 
-# Run as non-root user
+# Build будет добавлен после проверки package.json
+
 USER node
 
 EXPOSE ${PORT}
