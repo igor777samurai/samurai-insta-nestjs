@@ -1,35 +1,30 @@
-# Check out https://hub.docker.com/_/node to select a new base image
-FROM node:20.11-alpine
+FROM node:20-alpine
+
 ARG port
 ARG service
-ENV SERVICE=$service
-ENV PORT=$port
-# Set to a non-root built-in user `node`
 
-USER node
+ENV SERVICE=${service}
+ENV PORT=${port}
 
-# Create app directory (with user `node`)
-RUN mkdir -p /home/node/dist/${SERVICE}
+WORKDIR /home/node/app
 
-WORKDIR /home/node/dist/${SERVICE}
+# Copy root package manifests
+COPY package*.json ./
 
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
-
-
-
-COPY --chown=node package*.json ./
+# Install dependencies
+RUN npm install -g npm@10.9.4
 
 RUN npm install
 
-# Bundle app source code
-COPY --chown=node ../../../../Downloads .
+# Copy monorepo source
+COPY . .
 
+# Build the backend
 RUN npm run build:${SERVICE}
 
-# Bind to all network interfaces so that it can be mapped to the host OS
+# Run as non-root user
+USER node
 
 EXPOSE ${PORT}
 
-CMD npm run 'start:aularis-backend'
+CMD ["npm", "run", "start:aularis-backend"]
