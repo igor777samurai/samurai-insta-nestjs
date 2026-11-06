@@ -7,7 +7,7 @@ pipeline {
         NAMESPACE = "auralis-online-ru"
         REGISTRY_HOSTNAME = "smartandrew"
         PROJECT = "aularis-api"
-        SERVICE="api-gateway"
+        SERVICE="api"
         REGISTRY = "registry.hub.docker.com"
         DEPLOYMENT_NAME = "aularis-api-deployment"
         IMAGE_NAME = "${env.BUILD_ID}_${env.ENV_TYPE}_${env.GIT_COMMIT}"
