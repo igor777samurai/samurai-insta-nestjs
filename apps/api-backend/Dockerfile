@@ -21,3 +21,7 @@ USER node
 EXPOSE ${PORT}
 
 CMD ["sh", "-c", "npm run start:${SERVICE}:prod"]
+
+RUN npm run build:${SERVICE} && \
+    echo "=== BUILD FILES ===" && \
+    find dist -type f -name "main.js" -print
