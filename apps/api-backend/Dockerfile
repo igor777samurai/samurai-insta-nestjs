@@ -1,35 +1,32 @@
-# Check out https://hub.docker.com/_/node to select a new base image
-FROM node:20.11-alpine
-ARG port
-ARG service
-ENV SERVICE=$service
-ENV PORT=$port
-# Set to a non-root built-in user `node`
+
+# ---------- Build stage ----------
+FROM node:24-alpine AS builder
+
+WORKDIR /home/node/app
+
+COPY package*.json ./
+RUN npm ci
+
+COPY . .
+
+RUN npm run build:api-backend
+
+
+# ---------- Production stage ----------
+FROM node:24-alpine AS production
+
+ENV NODE_ENV=production
+ENV PORT=5978
+
+WORKDIR /home/node/app
+
+COPY package*.json ./
+RUN npm ci --omit=dev && npm cache clean --force
+
+COPY --from=builder /home/node/app/dist ./dist
 
 USER node
 
-# Create app directory (with user `node`)
-RUN mkdir -p /home/node/dist/${SERVICE}
+EXPOSE 5978
 
-WORKDIR /home/node/dist/${SERVICE}
-
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
-
-
-
-COPY --chown=node package*.json ./
-
-RUN npm install
-
-# Bundle app source code
-COPY --chown=node . .
-
-RUN npm run build:${SERVICE}
-
-# Bind to all network interfaces so that it can be mapped to the host OS
-
-EXPOSE ${PORT}
-
-CMD npm run 'start:api-backend'
+CMD ["node", "dist/apps/api-backend/main.js"]
