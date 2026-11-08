@@ -14,6 +14,7 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/apps/samurai-insta-nestjs/apps/samurai-insta-nestjs/src/main",
     "start:api-backend": "nest start api-backend",
+    "build:api-backend": "nest build api-backend",
     "start:api-backend:prod": "node dist/apps/api-backend/main.js",
     "lint": "oxlint --type-aware apps/ libs/",
     "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js",
