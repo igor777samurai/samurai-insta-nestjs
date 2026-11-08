@@ -4,7 +4,7 @@ import { ApiBackendModule } from './api-backend.module';
 async function bootstrap() {
   const app = await NestFactory.create(ApiBackendModule);
 
-  app.setGlobalPrefix('api');
+  app.setGlobalPrefix('api/v1');
 
   const port = Number(process.env.PORT) || 5978;
 
