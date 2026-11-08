@@ -24,3 +24,9 @@ spec:
              runAsUser: 1000         # опционально
            ports:
              - containerPort: PORT_CONTAINER
+           env:
+             - name: TEST_ENV
+               valueFrom:
+                 secretKeyRef:
+                   name: api-backend-production-config-secret
+                   key: TEST_ENV
