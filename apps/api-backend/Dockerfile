@@ -1,32 +1,35 @@
 
-# ---------- Build stage ----------
-FROM node:24-alpine AS builder
+# Check out https://hub.docker.com/_/node to select a new base image
+FROM node:24-alpine
 
-WORKDIR /home/node/app
+ARG port
+ARG service
 
-COPY package*.json ./
-RUN npm ci
-
-COPY . .
-
-RUN npm run build:api-backend
-
-
-# ---------- Production stage ----------
-FROM node:24-alpine AS production
-
+ENV SERVICE=${service}
+ENV PORT=${port}
 ENV NODE_ENV=production
-ENV PORT=5978
 
+# Create app directory
 WORKDIR /home/node/app
 
-COPY package*.json ./
-RUN npm ci --omit=dev && npm cache clean --force
-
-COPY --from=builder /home/node/app/dist ./dist
+# Give access to node user
+RUN chown -R node:node /home/node/app
 
 USER node
 
-EXPOSE 5978
+# Install app dependencies
+COPY --chown=node:node package*.json ./
 
-CMD ["node", "dist/apps/api-backend/main.js"]
+RUN npm ci
+
+# Bundle app source code
+COPY --chown=node:node . .
+
+# Build application
+RUN npm run build:${SERVICE}
+
+# Bind to all network interfaces
+EXPOSE ${PORT}
+
+# Start application
+CMD ["sh", "-c", "npm run start:${SERVICE}"]
