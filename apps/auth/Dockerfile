@@ -21,16 +21,7 @@ RUN npm ci
 
 # Копируем исходный код
 COPY --chown=node:node . .
-UN echo "===== DEBUG: PROJECT ROOT =====" \
-    && pwd \
-    && ls -la \
-    && echo "===== DEBUG: AUTH DIRECTORY =====" \
-    && ls -la apps/auth \
-    && echo "===== DEBUG: AUTH TSCONFIG =====" \
-    && test -f apps/auth/tsconfig.app.json \
-    && cat apps/auth/tsconfig.app.json \
-    && echo "===== DEBUG: NEST CONFIG =====" \
-    && cat nest-cli.json
+
 # Собираем нужный NestJS-сервис
 RUN npm run build:${SERVICE}
 
