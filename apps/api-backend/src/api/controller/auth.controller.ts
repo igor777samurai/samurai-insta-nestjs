@@ -24,7 +24,10 @@ export class AuthController {
   @Get('ping')
   async ping() {
     return firstValueFrom(
-      this.authClient.send('auth.ping', {}),
+      this.authClient.send(
+        { cmd: 'auth.ping' },
+        {},
+      ),
     );
   }
 }
