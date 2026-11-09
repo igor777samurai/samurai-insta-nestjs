@@ -24,3 +24,9 @@ spec:
              runAsUser: 1000         # опционально
            ports:
              - containerPort: PORT_CONTAINER
+           env:
+             - name: JWT_SECRET
+               valueFrom:
+                 secretKeyRef:
+                   name: api-auth-production-config-secret
+                   key: JWT_SECRET
