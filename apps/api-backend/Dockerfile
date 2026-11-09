@@ -1,3 +1,4 @@
+
 FROM node:24-alpine
 
 ARG port
@@ -5,20 +6,28 @@ ARG service
 
 ENV SERVICE=${service}
 ENV PORT=${port}
+ENV AUTH_PORT=${port}
 
 WORKDIR /home/node/app
 
-COPY package*.json ./
+RUN chown -R node:node /home/node/app
 
-RUN npm install
-
-COPY . .
-
-RUN npm run build:${SERVICE} && \
-    echo "=== BUILD FILES ===" && \
-    find dist -type f -name "main.js" -print
+COPY --chown=node:node package*.json ./
 
 USER node
+
+RUN npm ci
+
+COPY --chown=node:node . .
+
+# Сборка Auth
+RUN npm run build:${SERVICE}
+
+# Проверяем фактическое расположение main.js
+RUN echo "===== AUTH BUILD OUTPUT =====" \
+    && find dist -type f -name "main.js" -print \
+    && echo "===== DIST TREE =====" \
+    && find dist -maxdepth 5 -type f | head -100
 
 EXPOSE ${PORT}
 
