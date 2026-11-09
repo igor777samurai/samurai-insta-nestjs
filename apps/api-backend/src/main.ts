@@ -8,7 +8,7 @@ async function bootstrap() {
 
   const port = Number(process.env.PORT) || 5978;
 
-  await app.listen(port, '127.0.0.1');
+  await app.listen(port, '0.0.0.0');
 
   console.log(`API Backend is running on port ${port}`);
   console.log(`AUTH_HOST: ${process.env.AUTH_HOST}`);
