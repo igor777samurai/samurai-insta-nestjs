@@ -1,5 +1,3 @@
-
-# Node.js 24 — совместим с Prisma 7
 FROM node:24-alpine
 
 ARG port
@@ -9,28 +7,27 @@ ENV SERVICE=${service}
 ENV PORT=${port}
 ENV AUTH_PORT=${port}
 
-# Рабочая директория проекта
 WORKDIR /home/node/app
 
-# Устанавливаем зависимости из корневого package.json
+# Передаём рабочую директорию пользователю node
+RUN chown -R node:node /home/node/app
+
+# Копируем package.json и lock-файл
 COPY --chown=node:node package*.json ./
 
+# Устанавливаем зависимости от пользователя node
 USER node
-
 RUN npm ci
 
-# Копируем исходный код monorepo
+# Копируем исходный код
 COPY --chown=node:node . .
 
-# Собираем выбранный NestJS service
+# Собираем нужный NestJS-сервис
 RUN npm run build:${SERVICE}
 
-# Проверяем наличие собранного приложения
-RUN echo "=== BUILD FILES ===" \
-    && find dist -type f -name "main.js" -print
+# Показываем собранные entrypoint-файлы
+RUN find dist -type f -name "main.js" -print
 
-# Порт микросервиса
 EXPOSE ${PORT}
 
-# Запускаем production-версию выбранного сервиса
 CMD ["sh", "-c", "npm run start:${SERVICE}:prod"]
