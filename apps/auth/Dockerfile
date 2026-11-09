@@ -1,35 +1,36 @@
-# Check out https://hub.docker.com/_/node to select a new base image
-FROM node:20.11-alpine
+
+# Node.js 24 — совместим с Prisma 7
+FROM node:24-alpine
+
 ARG port
 ARG service
-ENV SERVICE=$service
-ENV PORT=$port
-# Set to a non-root built-in user `node`
+
+ENV SERVICE=${service}
+ENV PORT=${port}
+ENV AUTH_PORT=${port}
+
+# Рабочая директория проекта
+WORKDIR /home/node/app
+
+# Устанавливаем зависимости из корневого package.json
+COPY --chown=node:node package*.json ./
 
 USER node
 
-# Create app directory (with user `node`)
-RUN mkdir -p /home/node/dist/${SERVICE}
+RUN npm ci
 
-WORKDIR /home/node/dist/${SERVICE}
+# Копируем исходный код monorepo
+COPY --chown=node:node . .
 
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
-
-
-
-COPY --chown=node package*.json ./
-
-RUN npm install
-
-# Bundle app source code
-COPY --chown=node ../../../../Downloads .
-
+# Собираем выбранный NestJS service
 RUN npm run build:${SERVICE}
 
-# Bind to all network interfaces so that it can be mapped to the host OS
+# Проверяем наличие собранного приложения
+RUN echo "=== BUILD FILES ===" \
+    && find dist -type f -name "main.js" -print
 
+# Порт микросервиса
 EXPOSE ${PORT}
 
-CMD npm run 'start:auth'
+# Запускаем production-версию выбранного сервиса
+CMD ["sh", "-c", "npm run start:${SERVICE}:prod"]
