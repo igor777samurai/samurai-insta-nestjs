@@ -21,21 +21,24 @@ export class AuthController {
     return firstValueFrom(this.authClient.send({ cmd: 'auth.login' }, dto));
   }
 
+  @Get()
+  test() {
+    console.log('[API-AUTH] Simple GET reached');
+
+    return {
+      status: 'ok',
+      message: 'AuthController is working!',
+    };
+  }
+
+  // GET для проверки маршрута ping
   @Get('ping')
   async ping() {
-    console.log('[API-GATEWAY] Sending ping to Auth');
+    console.log('[API-AUTH] Ping method entered');
 
-    try {
-      const result = await firstValueFrom(
-        this.authClient.send({ cmd: 'auth.ping' }, {}),
-      );
-
-      console.log('[API-GATEWAY] Auth response:', result);
-
-      return result;
-    } catch (error) {
-      console.error('[API-GATEWAY] Auth ping failed:', error);
-      throw error;
-    }
+    return {
+      status: 'ok',
+      message: 'Auth ping route is working!',
+    };
   }
 }
