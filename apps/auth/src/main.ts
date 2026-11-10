@@ -23,6 +23,8 @@ async function bootstrap() {
   console.log(`SERVICE: ${process.env.SERVICE}`);
 
   console.log(`TEST_ENV: ${process.env.TEST_ENV}`);
+  console.log(`AUTH_SERVICE_HOST: ${process.env.AUTH_SERVICE_HOST}`);
+  console.log(`AUTH_SERVICE_PORT: ${process.env.AUTH_SERVICE_PORT}`);
 }
 
 void bootstrap();
