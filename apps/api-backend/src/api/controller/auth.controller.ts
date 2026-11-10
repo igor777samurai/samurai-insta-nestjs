@@ -23,11 +23,19 @@ export class AuthController {
 
   @Get('ping')
   async ping() {
-    return firstValueFrom(
-      this.authClient.send(
-        { cmd: 'auth.ping' },
-        {},
-      ),
-    );
+    console.log('[API-GATEWAY] Sending ping to Auth');
+
+    try {
+      const result = await firstValueFrom(
+        this.authClient.send({ cmd: 'auth.ping' }, {}),
+      );
+
+      console.log('[API-GATEWAY] Auth response:', result);
+
+      return result;
+    } catch (error) {
+      console.error('[API-GATEWAY] Auth ping failed:', error);
+      throw error;
+    }
   }
 }

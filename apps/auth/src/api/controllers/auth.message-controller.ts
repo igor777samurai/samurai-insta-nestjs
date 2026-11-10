@@ -14,12 +14,18 @@ export class AuthMessageController {
 
   @MessagePattern({ cmd: 'auth.ping' })
   ping() {
-    return {
+    console.log('[AUTH] Received auth.ping');
+
+    const response = {
       status: 'ok',
       service: 'auth',
       message: 'Auth microservice is alive',
       timestamp: new Date().toISOString(),
     };
+
+    console.log('[AUTH] Sending ping response:', response);
+
+    return response;
   }
 
   @MessagePattern({ cmd: 'auth.register' })
