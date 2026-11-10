@@ -17,7 +17,6 @@ import { TestController } from './api/controller/test.controller';
         options: {
           host: 'api-auth-service',
           port: 4467,
-          maxByteLength: 10 * 1024 * 1024,
         },
       },
     ]),
