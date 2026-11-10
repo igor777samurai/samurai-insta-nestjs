@@ -12,6 +12,8 @@ async function bootstrap() {
 
   console.log(`API Backend is running on port ${port}`);
   console.log(`SERVICE: ${process.env.SERVICE}`);
+  console.log(`PORT: ${process.env.PORT}`);
+
   console.log(`AUTH_PORT: ${process.env.AUTH_PORT}`);
   console.log(`TEST_ENV: ${process.env.TEST_ENV}`);
 }
