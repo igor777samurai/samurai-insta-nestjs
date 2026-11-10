@@ -12,6 +12,7 @@ async function bootstrap() {
       options: {
         host: '0.0.0.0',
         port,
+        maxByteLength: 10 * 1024 * 1024,
       },
     },
   );
