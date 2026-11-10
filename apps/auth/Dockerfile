@@ -5,7 +5,6 @@ ARG service
 
 ENV SERVICE=${service}
 ENV PORT=${port}
-ENV AUTH_PORT=${port}
 
 WORKDIR /home/node/app
 
@@ -25,9 +24,6 @@ COPY --chown=node:node . .
 # Собираем нужный NestJS-сервис
 RUN npm run build:${SERVICE}
 
-# Показываем собранные entrypoint-файлы
-RUN find dist -type f -name "main.js" -print
-
 EXPOSE ${PORT}
 
-CMD ["sh", "-c", "npm run start:${SERVICE}:prod"]
+CMD npm run 'start:auth'
