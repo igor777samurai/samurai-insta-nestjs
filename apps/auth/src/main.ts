@@ -11,8 +11,8 @@ async function bootstrap() {
     {
       transport: Transport.TCP,
       options: {
-        host: 'api-auth-service',
-        // host: '0.0.0.0',
+        // host: 'api-auth-service',
+        host: '0.0.0.0',
         port: 4467,
       },
     },
