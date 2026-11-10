@@ -15,8 +15,8 @@ import { TestController } from './api/controller/test.controller';
         name: 'AUTH_SERVICE',
         transport: Transport.TCP,
         options: {
-          host: 'api-auth-service',
-          port: 4467,
+          host: process.env.AUTH_SERVICE_HOST || 'api-auth-service',
+          port:  Number(process.env.AUTH_SERVICE_PORT || '4467'),
         },
       },
     ]),
