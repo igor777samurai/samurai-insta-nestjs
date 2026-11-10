@@ -24,7 +24,6 @@ export class AuthController {
   @Get()
   test() {
     console.log('[API-AUTH] Simple GET reached');
-
     return {
       status: 'ok',
       message: 'AuthController is working!',
