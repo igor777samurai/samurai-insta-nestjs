@@ -20,7 +20,10 @@ async function bootstrap() {
 
   await app.listen();
 
-  console.log(`Auth Microservice is running on port ${port}`);
+  console.log(`Auth Microservice is running on PORT: ${port}`);
+  console.log(`SERVICE: ${process.env.SERVICE}`);
+
+  console.log(`TEST_ENV: ${process.env.TEST_ENV}`);
 }
 
 void bootstrap();
