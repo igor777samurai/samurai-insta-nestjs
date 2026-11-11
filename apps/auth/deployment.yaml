@@ -35,6 +35,16 @@ spec:
                 secretKeyRef:
                   name: api-auth-production-config-secret
                   key: AUTH_SERVICE_PORT
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: api-auth-production-config-secret
+                  key: DATABASE_URL
+            - name: DIRECT_URL
+              valueFrom:
+                secretKeyRef:
+                  name: api-auth-production-config-secret
+                  key: DIRECT_URL
             - name: JWT_SECRET
               valueFrom:
                 secretKeyRef:
