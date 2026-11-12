@@ -45,6 +45,11 @@ spec:
                 secretKeyRef:
                   name: api-auth-production-config-secret
                   key: DIRECT_URL
+            - name: JWT_ACCESS_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: api-auth-production-config-secret
+                  key: JWT_ACCESS_SECRET
             - name: JWT_SECRET
               valueFrom:
                 secretKeyRef:

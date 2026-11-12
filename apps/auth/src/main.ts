@@ -26,6 +26,7 @@ async function bootstrap() {
   console.log(`TEST_ENV: ${process.env.TEST_ENV}`);
   console.log(`AUTH_SERVICE_HOST: ${process.env.AUTH_SERVICE_HOST}`);
   console.log(`AUTH_SERVICE_PORT: ${process.env.AUTH_SERVICE_PORT}`);
+  console.log(`JWT_ACCESS_SECRET: ${process.env.JWT_ACCESS_SECRET}`);
 
   // NEON
   const databaseUrl = process.env.DATABASE_URL ?? '';
