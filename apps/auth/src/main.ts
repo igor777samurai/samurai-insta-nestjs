@@ -26,7 +26,17 @@ async function bootstrap() {
   console.log(`TEST_ENV: ${process.env.TEST_ENV}`);
   console.log(`AUTH_SERVICE_HOST: ${process.env.AUTH_SERVICE_HOST}`);
   console.log(`AUTH_SERVICE_PORT: ${process.env.AUTH_SERVICE_PORT}`);
-  console.log(`JWT_ACCESS_SECRET: ${process.env.JWT_ACCESS_SECRET}`);
+
+  const maskSecret = (value?: string): string => {
+    if (!value) return 'не задан';
+
+    if (value.length <= 6) return '*'.repeat(value.length);
+
+    return `${value.slice(0, 6)}${'*'.repeat(8)}`;
+  };
+
+  console.log(`JWT_ACCESS_SECRET: ${maskSecret(process.env.JWT_ACCESS_SECRET)}`);
+  console.log(`JWT_REFRESH_SECRET: ${maskSecret(process.env.JWT_REFRESH_SECRET)}`);
 
   // NEON
   const databaseUrl = process.env.DATABASE_URL ?? '';
